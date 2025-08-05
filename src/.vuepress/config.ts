@@ -1,16 +1,16 @@
-import { defineUserConfig } from "vuepress";
+import {defineUserConfig} from "vuepress";
 
 import theme from "./theme.js";
 
 export default defineUserConfig({
-  base: "/",
+    base: "/CrzyKaiSa/",
 
-  lang: "zh-CN",
-  title: "CrazyKaiSa",
-  description: "沈鑫杰的学习博客",
+    lang: "zh-CN",
+    title: "CrazyKaiSa",
+    description: "沈鑫杰的学习博客",
 
-  theme,
+    theme,
 
-  // 和 PWA 一起启用
-  // shouldPrefetch: false,
+    // 和 PWA 一起启用
+    // shouldPrefetch: false,
 });
