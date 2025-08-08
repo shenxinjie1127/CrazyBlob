@@ -3,7 +3,7 @@ home: true
 layout: Blog
 icon: house
 title: 主页
-heroImage: https://theme-hope-assets.vuejs.press/logo.svg
+heroImage: ./assets/icon/touixang.jpg
 heroText: CrazyKaiSa的学习历史
 heroFullScreen: true
 tagline: 继续加油
