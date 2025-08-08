@@ -3,7 +3,8 @@ home: true
 layout: Blog
 icon: house
 title: 主页
-heroImage: ./assets/icon/touixang.jpg
+heroImage: ./icon/touixang.jpg
+bgImage: /bg.jpg
 heroText: CrazyKaiSa的学习历史
 heroFullScreen: true
 tagline: 继续加油
