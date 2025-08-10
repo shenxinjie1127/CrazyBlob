@@ -1,7 +1,7 @@
 ---
 home: true
 layout: Blog
-icon: house
+icon: line-md:home-alt-twotone
 title: 主页
 heroImage: ./icon/touixang.jpg
 bgImage: /bg.jpg
@@ -20,4 +20,3 @@ projects:
     link: https://gitee.com/shenxinjie1127
 footer: 努力是成功唯一的办法
 ---
-

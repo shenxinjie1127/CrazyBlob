@@ -1,21 +1,21 @@
-import {hopeTheme} from "vuepress-theme-hope";
+import { hopeTheme } from 'vuepress-theme-hope'
 
-import navbar from "./navbar.js";
-import sidebar from "./sidebar.js";
+import navbar from './navbar.js'
+import sidebar from './sidebar.js'
 
 export default hopeTheme({
-    hostname: "https://mister-hope.github.io",
+    hostname: 'https://mister-hope.github.io',
 
     author: {
-        name: "Mr shen",
-        url: "https://mister-hope.com",
+        name: 'Mr shen',
+        url: 'https://mister-hope.com',
     },
 
-    logo: "/assets/icon/touxiang.jpg",
+    logo: '/assets/icon/touxiang.jpg',
 
-    repo: "shenxinjie1127/CrazyBlob",
+    repo: 'shenxinjie1127/CrazyBlob',
 
-    docsDir: "src",
+    docsDir: 'src',
 
     // 导航栏
     navbar,
@@ -24,19 +24,19 @@ export default hopeTheme({
     sidebar,
 
     // 页脚
-    footer: "默认页脚",
+    footer: '默认页脚',
     displayFooter: true,
 
     // 博客相关
     blog: {
-        description: "一个前端开发者",
-        intro: "/intro.html",
+        description: '一个前端开发者',
+        intro: '/intro.html',
         medias: {
-            Gitee: "https://gitee.com/shenxinjie1127",
-            GitHub: "https://github.com/shenxinjie1127",
+            Gitee: 'https://gitee.com/shenxinjie1127',
+            GitHub: 'https://github.com/shenxinjie1127',
             Vue3: {
-                icon: "logos:vue",
-                link: "https://github.com/shenxinjie1127"
+                icon: 'logos:vue',
+                link: 'https://github.com/shenxinjie1127'
             }
         },
     },
@@ -44,16 +44,16 @@ export default hopeTheme({
     // 加密配置
     encrypt: {
         config: {
-            "/demo/encrypt.html": {
-                hint: "Password: 1234",
-                password: "1234",
+            '/demo/encrypt.html': {
+                hint: 'Password: 1234',
+                password: '1234',
             },
         },
     },
 
     // 多语言配置
     metaLocales: {
-        editLink: "在 GitHub 上编辑此页",
+        editLink: '在 GitHub 上编辑此页',
     },
 
     // 如果想要实时查看任何改变，启用它。注: 这对更新性能有很大负面影响
@@ -76,14 +76,14 @@ export default hopeTheme({
         spoiler: true,
         stylize: [
             {
-                matcher: "Recommended",
+                matcher: 'Recommended',
                 replacer: ({tag}) => {
-                    if (tag === "em")
+                    if (tag === 'em')
                         return {
-                            tag: "Badge",
-                            attrs: {type: "tip"},
-                            content: "Recommended",
-                        };
+                            tag: 'Badge',
+                            attrs: {type: 'tip'},
+                            content: 'Recommended',
+                        }
                 },
             },
         ],
@@ -141,13 +141,14 @@ export default hopeTheme({
         //   provider: "Waline",
         //   serverURL: "https://waline-comment.vuejs.press",
         // },
+        slimsearch: {},
 
         components: {
-            components: ["Badge", "VPCard"],
+            components: ['Badge', 'VPCard'],
         },
 
         icon: {
-            prefix: "fa6-solid:",
+            prefix: 'fa6-solid:',
         },
 
         // 如果你需要 PWA。安装 @vuepress/plugin-pwa 并取消下方注释
@@ -207,4 +208,4 @@ export default hopeTheme({
         //   },
         // },
     },
-});
+})
