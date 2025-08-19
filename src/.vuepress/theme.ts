@@ -1,4 +1,4 @@
-import { hopeTheme } from 'vuepress-theme-hope'
+import {hopeTheme} from 'vuepress-theme-hope'
 
 import navbar from './navbar.js'
 import sidebar from './sidebar.js'
@@ -92,6 +92,13 @@ export default hopeTheme({
         tabs: true,
         tasklist: true,
         vPre: true,
+        highlighter: {
+            collapsedLines: true,
+            type: "shiki", // or "prismjs"
+
+            // shiki 或 prismjs 选项
+            // ...
+        },
 
         // 取消注释它们如果你需要 TeX 支持
         // math: {
