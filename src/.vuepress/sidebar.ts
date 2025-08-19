@@ -1,4 +1,4 @@
-import { sidebar } from 'vuepress-theme-hope'
+import {sidebar} from 'vuepress-theme-hope'
 // https://icon-sets.iconify.design/
 export default sidebar({
     '/': [
@@ -40,9 +40,30 @@ export default sidebar({
         },
         {
             text: 'Vue3',
-            icon: 'logos:vue',
+            icon: 'vscode-icons:file-type-vue',
             prefix: 'Vue3/',
             link: 'Vue3/',
+            children: 'structure',
+        },
+        {
+            text: 'Webpack',
+            icon: 'vscode-icons:file-type-webpack',
+            prefix: 'Webpack/',
+            link: 'Webpack/',
+            children: 'structure',
+        },
+        {
+            text: 'Git',
+            icon: 'vscode-icons:file-type-git',
+            prefix: 'Git/',
+            link: 'Git/',
+            children: 'structure',
+        },
+        {
+            text: '项目实战积累',
+            icon: 'eos-icons:project',
+            prefix: 'Project/',
+            link: 'Project/',
             children: 'structure',
         }
     ]
