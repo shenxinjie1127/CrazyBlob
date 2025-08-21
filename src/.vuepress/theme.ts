@@ -48,6 +48,18 @@ export default hopeTheme({
                 hint: 'Password: 1234',
                 password: '1234',
             },
+            '/learn/Project/5.html': {
+                hint: "机密",
+                password: "112700"
+            },
+            '/learn/Project/6.html': {
+                hint: "机密",
+                password: "112700"
+            },
+            '/learn/Project/7.html': {
+                hint: "机密",
+                password: "112700"
+            }
         },
     },
 
