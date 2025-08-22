@@ -107,7 +107,7 @@ export default hopeTheme({
         highlighter: {
             collapsedLines: true,
             type: "shiki", // or "prismjs"
-
+            notationDiff: true
             // shiki 或 prismjs 选项
             // ...
         },

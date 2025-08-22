@@ -25,6 +25,13 @@ export default sidebar({
     ],
     '/learn/': [
         {
+            text: '项目实战积累',
+            icon: 'eos-icons:project',
+            prefix: 'Project/',
+            link: 'Project/',
+            children: 'structure',
+        },
+        {
             text: 'JavaScript',
             icon: 'vscode-icons:file-type-js-official',
             prefix: 'JavaScript/',
@@ -57,13 +64,6 @@ export default sidebar({
             icon: 'vscode-icons:file-type-git',
             prefix: 'Git/',
             link: 'Git/',
-            children: 'structure',
-        },
-        {
-            text: '项目实战积累',
-            icon: 'eos-icons:project',
-            prefix: 'Project/',
-            link: 'Project/',
             children: 'structure',
         }
     ]
