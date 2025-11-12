@@ -140,14 +140,14 @@ export default hopeTheme({
         // mermaid: true,
 
         // playground: {
-        //   presets: ["ts", "vue"],
+        //     presets: ["ts", "vue"],
         // },
 
         // 在启用之前安装 @vue/repl
-        // vuePlayground: true,
+        vuePlayground: true,
 
         // 在启用之前安装 sandpack-vue3
-        // sandpack: true,
+        sandpack: true,
     },
 
     // 在这里配置主题提供的插件
