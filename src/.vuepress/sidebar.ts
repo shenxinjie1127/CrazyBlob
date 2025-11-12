@@ -53,6 +53,13 @@ export default sidebar({
             children: 'structure',
         },
         {
+            text: 'React',
+            icon: 'vscode-icons:file-type-reactjs',
+            prefix: 'React/',
+            link: 'React/',
+            children: 'structure',
+        },
+        {
             text: 'Webpack',
             icon: 'vscode-icons:file-type-webpack',
             prefix: 'Webpack/',
