@@ -53,13 +53,6 @@ export default sidebar({
       children: "structure",
     },
     {
-      text: "WebGl",
-      icon: "simple-icons:webgl",
-      prefix: "WebGL/",
-      link: "WebGL/",
-      children: "structure",
-    },
-    {
       text: "CSS",
       icon: "vscode-icons:file-type-css",
       prefix: "CSS/",
@@ -81,10 +74,24 @@ export default sidebar({
       children: "structure",
     },
     {
+      text: "Three",
+      icon: "vscode-icons:file-type-threejs",
+      prefix: "Three/",
+      link: "Three/",
+      children: "structure",
+    },
+    {
       text: "Webpack",
       icon: "vscode-icons:file-type-webpack",
       prefix: "Webpack/",
       link: "Webpack/",
+      children: "structure",
+    },
+    {
+      text: "WebGl",
+      icon: "simple-icons:webgl",
+      prefix: "WebGL/",
+      link: "WebGL/",
       children: "structure",
     },
     {
