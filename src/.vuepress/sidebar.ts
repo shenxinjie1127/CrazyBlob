@@ -60,6 +60,13 @@ export default sidebar({
       children: "structure",
     },
     {
+      text: "DevTools",
+      icon: "devicon:chrome",
+      prefix: "DevTools/",
+      link: "DevTools/",
+      children: "structure",
+    },
+    {
       text: "React",
       icon: "vscode-icons:file-type-reactjs",
       prefix: "React/",
@@ -75,7 +82,7 @@ export default sidebar({
     },
     {
       text: "Three",
-      icon: "vscode-icons:file-type-threejs",
+      icon: "devicon:threejs-wordmark",
       prefix: "Three/",
       link: "Three/",
       children: "structure",
