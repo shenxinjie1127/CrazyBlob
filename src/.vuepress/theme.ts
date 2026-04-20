@@ -91,6 +91,7 @@ export default hopeTheme({
         },
       },
     ],
+    markmap: true,
     sub: true,
     sup: true,
     tabs: true,

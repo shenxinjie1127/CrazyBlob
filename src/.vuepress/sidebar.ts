@@ -88,10 +88,10 @@ export default sidebar({
       children: "structure",
     },
     {
-      text: "Webpack",
+      text: "Package",
       icon: "vscode-icons:file-type-webpack",
-      prefix: "Webpack/",
-      link: "Webpack/",
+      prefix: "Package/",
+      link: "Package/",
       children: "structure",
     },
     {
