@@ -73,7 +73,7 @@ export const mutableHandlers: ProxyHandler<any> = {
         // return this.name
         // }
         //   }
-        // 如果使用 target[key] 来取值 只能收集一次依赖 如果这个属性内部还有依赖的值将无法被成功收集，如果用receiver 会被无限收集
+        // 如果使用 target[key] 来取值 只能收集一次依赖 如果这个属性内部还有依赖的值将无法被成功收集(如上面的例子，如果用reflect name alice 都会被收集)，如果用receiver 会被无限收集
         // 当取值的时候， 应该让响应式属性和effect映射起来
         // 依赖收集
         track(target, key);
