@@ -24,8 +24,8 @@
     "vuepress-theme-hope": "2.0.0-rc.94"
   },
   "pnpm": {
-    "onlyBuiltDependencies": [
-      "esbuild"
-    ]
+    "allowBuilds": {
+      "esbuild": true
+    }
   }
 }
