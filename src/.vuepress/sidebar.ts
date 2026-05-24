@@ -25,7 +25,7 @@ export default sidebar({
   ],
   "/learn/": [
     {
-      text: "项目实战积累",
+      text: "项目积累",
       icon: "eos-icons:project",
       prefix: "Project/",
       link: "Project/",
@@ -60,11 +60,32 @@ export default sidebar({
       children: "structure",
     },
     {
-      text: "DevTools",
-      icon: "devicon:chrome",
-      prefix: "DevTools/",
-      link: "DevTools/",
+      text: "HTTP",
+      icon: "catppuccin:http",
+      prefix: "HTTP/",
+      link: "HTTP/",
       children: "structure",
+    },
+    {
+      text: "Browser",
+      icon: "gg:browser",
+      prefix: "Browser/",
+      link: "Browser/",
+      children: "structure",
+    },
+    {
+      text: "微前端",
+      icon: "tabler:microfrontends",
+      prefix: "MicroFrontend/",
+      link: "MicroFrontend/",
+      children: "structure",
+    },
+    {
+      text: 'Electron',
+      icon: 'file-icons:electron',
+      prefix: 'Electron/',
+      link: 'Electron/',
+      children: 'structure',
     },
     {
       text: "React",
@@ -78,13 +99,6 @@ export default sidebar({
       icon: "vscode-icons:file-type-nestjs",
       prefix: "NestJS/",
       link: "NestJS/",
-      children: "structure",
-    },
-    {
-      text: "Three",
-      icon: "devicon:threejs-wordmark",
-      prefix: "Three/",
-      link: "Three/",
       children: "structure",
     },
     {
