@@ -24,8 +24,8 @@ function Person(name, age) {
   this.age = age;
 }
 
-const person1 = new Person('张三', 25);
-const person2 = new Person('李四', 30);
+const person1 = new Person("张三", 25);
+const person2 = new Person("李四", 30);
 
 console.log(person1.name); // '张三'
 console.log(person2.name); // '李四'
@@ -40,17 +40,17 @@ function Person(name) {
   this.name = name;
 }
 
-Person.prototype.sayHello = function() {
+Person.prototype.sayHello = function () {
   console.log(`Hello, I'm ${this.name}`);
 };
 
-const person = new Person('张三');
+const person = new Person("张三");
 person.sayHello(); // 'Hello, I'm 张三'
 ```
 
 在这个例子中，`sayHello` 方法并没有定义在 `person` 对象上，而是定义在 `Person.prototype` 上。通过原型链，`person` 可以访问到 `sayHello` 方法。
 
-## __proto__
+## **proto**
 
 `__proto__` 是每个对象（除 null）都具有的属性，它指向创建该对象的构造函数的原型。
 
@@ -59,7 +59,7 @@ function Person(name) {
   this.name = name;
 }
 
-const person = new Person('张三');
+const person = new Person("张三");
 
 console.log(person.__proto__ === Person.prototype); // true
 ```
@@ -67,10 +67,10 @@ console.log(person.__proto__ === Person.prototype); // true
 ### 获取原型的方法
 
 ```javascript
-const person = new Person('张三');
+const person = new Person("张三");
 
 Object.getPrototypeOf(person) === Person.prototype; // true (推荐)
-person.__proto__ === Person.prototype;              // true (历史遗留)
+person.__proto__ === Person.prototype; // true (历史遗留)
 person.constructor.prototype === Person.prototype; // true
 ```
 
@@ -83,19 +83,19 @@ function Person(name) {
   this.name = name;
 }
 
-Person.prototype.greet = function() {
+Person.prototype.greet = function () {
   console.log(`Hello, I'm ${this.name}`);
 };
 
-const person = new Person('张三');
+const person = new Person("张三");
 
-console.log(person.name);       // '张三' (自身属性)
-console.log(person.greet());    // 'Hello, I'm 张三' (原型链查找)
-console.log(person.toString());  // '[object Object]' (来自 Object.prototype)
-console.log(person.valueOf());   // Person { name: '张三' } (来自 Object.prototype)
-console.log(person.__proto__ === Person.prototype);         // true
+console.log(person.name); // '张三' (自身属性)
+console.log(person.greet()); // 'Hello, I'm 张三' (原型链查找)
+console.log(person.toString()); // '[object Object]' (来自 Object.prototype)
+console.log(person.valueOf()); // Person { name: '张三' } (来自 Object.prototype)
+console.log(person.__proto__ === Person.prototype); // true
 console.log(person.__proto__.__proto__ === Object.prototype); // true
-console.log(person.__proto__.__proto__.__proto__);            // null (原型链顶端)
+console.log(person.__proto__.__proto__.__proto__); // null (原型链顶端)
 ```
 
 ### 原型链图示
@@ -128,7 +128,7 @@ function Person(name) {
 
 console.log(Person.prototype.constructor === Person); // true
 
-const person = new Person('张三');
+const person = new Person("张三");
 console.log(person.constructor === Person); // true (通过原型链查找)
 ```
 
@@ -143,7 +143,7 @@ function Animal(name) {
   this.name = name;
 }
 
-Animal.prototype.eat = function() {
+Animal.prototype.eat = function () {
   console.log(`${this.name} is eating`);
 };
 
@@ -156,10 +156,17 @@ function Dog(name, breed) {
 Dog.prototype = new Animal();
 Dog.prototype.constructor = Dog;
 
-const dog = new Dog('旺财', '金毛');
+const dog = new Dog("旺财", "金毛");
 dog.eat(); // '旺财 is eating'
 console.log(dog.breed); // '金毛'
 ```
+
+::: info
+这样的继承会存在以下问题
+
+1. 在创建子类实例的时候，不能向超类型的构造函数中传递参数。
+2. 这样创建的子类原型会包含父类的实例属性，造成引用类型属性同步修改的问题。
+   :::
 
 ### 组合继承
 
@@ -168,10 +175,10 @@ console.log(dog.breed); // '金毛'
 ```javascript
 function Animal(name) {
   this.name = name;
-  this.colors = ['白色', '黑色'];
+  this.colors = ["白色", "黑色"];
 }
 
-Animal.prototype.eat = function() {
+Animal.prototype.eat = function () {
   console.log(`${this.name} is eating`);
 };
 
@@ -182,16 +189,54 @@ function Dog(name, breed) {
 
 Dog.prototype = new Animal(); // 原型链继承
 Dog.prototype.constructor = Dog;
-Dog.prototype.bark = function() {
+Dog.prototype.bark = function () {
   console.log(`${this.name} is barking`);
 };
 
-const dog1 = new Dog('旺财', '金毛');
-const dog2 = new Dog('小白', '萨摩耶');
+const dog1 = new Dog("旺财", "金毛");
+const dog2 = new Dog("小白", "萨摩耶");
 
-dog1.colors.push('黄色');
+dog1.colors.push("黄色");
 console.log(dog1.colors); // ['白色', '黑色', '黄色']
 console.log(dog2.colors); // ['白色', '黑色'] (不受影响)
+```
+
+:::info
+父类的构造函数被调用了两次（创建子类原型时调用了一次，创建子类实例时又调用了一次），导致子类原型上会存在父类实例属性，浪费内存。
+:::
+
+### 寄生组合继承
+
+针对组合继承存在的缺陷，又进化出了“寄生组合继承”：使用 Object.create(Parent.prototype) 创建一个新的原型对象赋予子类从而解决组合继承的缺陷：
+
+```js
+// 寄生组合继承实现
+
+function Parent(value) {
+  this.value = value;
+}
+
+Parent.prototype.getValue = function () {
+  console.log(this.value);
+};
+
+function Child(value) {
+  // 调用父类构造函数，初始化子类实例的属性
+  Parent.call(this, value);
+}
+
+Child.prototype = Object.create(Parent.prototype, {
+  constructor: {
+    value: Child,
+    enumerable: false, // 不可枚举该属性
+    writable: true, // 可改写该属性
+    configurable: true, // 可用 delete 删除该属性
+  },
+});
+
+const child = new Child(1);
+child.getValue();
+child instanceof Parent;
 ```
 
 ### ES6 Class 继承
@@ -218,9 +263,9 @@ class Dog extends Animal {
   }
 }
 
-const dog = new Dog('旺财', '金毛');
-dog.eat();   // '旺财 is eating'
-dog.bark();  // '旺财 is barking'
+const dog = new Dog("旺财", "金毛");
+dog.eat(); // '旺财 is eating'
+dog.bark(); // '旺财 is barking'
 ```
 
 ## 原型相关方法
@@ -232,8 +277,8 @@ dog.bark();  // '旺财 is barking'
 ```javascript
 const person = {
   greet() {
-    console.log('Hello');
-  }
+    console.log("Hello");
+  },
 };
 
 const person1 = Object.create(person);
@@ -248,18 +293,18 @@ console.log(person1.__proto__ === person); // true
 
 ```javascript
 const obj = {};
-const proto = { greeting: 'Hello' };
+const proto = { greeting: "Hello" };
 
 Object.setPrototypeOf(obj, proto);
 console.log(obj.greeting); // 'Hello'
 ```
 
-### Object.getPrototypeOf()
+### Object.getPrototypeOf() || Reflect.getPrototypeOf()
 
 获取对象的原型。
 
 ```javascript
-const person = new Person('张三');
+const person = new Person("张三");
 console.log(Object.getPrototypeOf(person) === Person.prototype); // true
 ```
 
@@ -274,9 +319,9 @@ function Person(name) {
 
 Person.prototype.age = 25;
 
-const person = new Person('张三');
-console.log(person.hasOwnProperty('name')); // true (自身属性)
-console.log(person.hasOwnProperty('age'));  // false (原型属性)
+const person = new Person("张三");
+console.log(person.hasOwnProperty("name")); // true (自身属性)
+console.log(person.hasOwnProperty("age")); // false (原型属性)
 ```
 
 ### in 操作符
@@ -290,9 +335,9 @@ function Person(name) {
 
 Person.prototype.age = 25;
 
-const person = new Person('张三');
-console.log('name' in person); // true
-console.log('age' in person);  // true
+const person = new Person("张三");
+console.log("name" in person); // true
+console.log("age" in person); // true
 ```
 
 ## 常见面试题
@@ -308,7 +353,7 @@ console.log(Object.prototype.__proto__); // null
 ```javascript
 const obj = Object.create(null);
 console.log(obj.__proto__); // undefined
-console.log(obj.toString);  // undefined
+console.log(obj.toString); // undefined
 ```
 
 ### 3. 函数也是对象
@@ -316,7 +361,7 @@ console.log(obj.toString);  // undefined
 ```javascript
 function fn() {}
 console.log(fn.__proto__ === Function.prototype); // true
-console.log(fn.prototype);                         // { constructor: fn }
+console.log(fn.prototype); // { constructor: fn }
 console.log(fn.__proto__.__proto__ === Object.prototype); // true
 ```
 
@@ -324,9 +369,9 @@ console.log(fn.__proto__.__proto__ === Object.prototype); // true
 
 ```javascript
 const arr = [1, 2, 3];
-console.log(arr.__proto__ === Array.prototype);         // true
+console.log(arr.__proto__ === Array.prototype); // true
 console.log(arr.__proto__.__proto__ === Object.prototype); // true
-console.log(arr.__proto__.__proto__.__proto__);          // null
+console.log(arr.__proto__.__proto__.__proto__); // null
 ```
 
 ### 5. instanceof 原理
@@ -338,11 +383,11 @@ function Person(name) {
   this.name = name;
 }
 
-const person = new Person('张三');
+const person = new Person("张三");
 
-console.log(person instanceof Person);    // true
-console.log(person instanceof Object);    // true
-console.log(person instanceof Array);     // false
+console.log(person instanceof Person); // true
+console.log(person instanceof Object); // true
+console.log(person instanceof Array); // false
 ```
 
 ### 6. new 操作符的实现
@@ -352,14 +397,14 @@ function myNew(constructor, ...args) {
   const obj = {};
   obj.__proto__ = constructor.prototype;
   const result = constructor.apply(obj, args);
-  return typeof result === 'object' ? result : obj;
+  return typeof result === "object" ? result : obj;
 }
 
 function Person(name) {
   this.name = name;
 }
 
-const person = myNew(Person, '张三');
+const person = myNew(Person, "张三");
 console.log(person.name); // '张三'
 console.log(person instanceof Person); // true
 ```
@@ -372,3 +417,17 @@ console.log(person instanceof Person); // true
 4. **访问属性时**，先查找自身，如果没有则沿原型链向上查找
 5. **Object.prototype** 是所有对象的最终原型（除了 Object.create(null)）
 6. **prototype.constructor** 指向构造函数本身
+
+## 原型污染
+
+什么意思呢，原理其实很简单。如果我们把 Object.prototype.toString 改成这样：
+
+```js
+Object.prototype.toString = function () {
+  alert("原型污染");
+};
+let obj = {};
+obj.toString();
+```
+
+解决方式： 代码很简单，只要是碰到有 constructor 或者 **proto** 这样的敏感词汇，就直接退出执行了
