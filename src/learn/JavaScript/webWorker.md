@@ -12,6 +12,14 @@ category:
 
 Web Worker 是一种运行在主线程之外的 JavaScript 并行执行环境。通过 Web Worker，开发者可以将耗时的任务（如数据处理、文件解析等）从主线程中剥离，从而提高页面的响应速度和用户体验。
 
+::: tip
+1. 丢失上下文
+2. window 不可用
+3. dom操作不可用
+4. 丢失原型链
+5. document 不可用
+:::
+
 ### API
 
 #### 创建Worker
@@ -20,8 +28,12 @@ Web Worker 是一种运行在主线程之外的 JavaScript 并行执行环境。
 参数是包含 Worker 脚本的文件路径。需要注意的是，文件必须与主线程在同源下运行。
 :::
 
+- `options.type`  可选，用以指定 worker 类型。该值可以是 classic 或 module。 如未指定，将使用默认值 classic
+- `options.name`  可选，用以指定 worker 名称。该值可以是任意字符串，用于标识 worker 实例。
+- `options.credentials`  可选，用以指定是否需要使用凭证。该值可以是 include 或 omit。 如未指定，将使用默认值 omit。
+
 ```javascript :no-line-numbers
-const worker = new Worker("worker.js");
+const worker = new Worker("worker.js", options);
 ```
 
 #### 发送消息到Worker
@@ -29,7 +41,14 @@ const worker = new Worker("worker.js");
 主线程使用`postMessage` 方法向 Worker 发送消息。
 
 ```javascript :no-line-numbers
+
+// 主线程发送
 worker.postMessage({type: "start", data: "Hello Worker!"});
+
+// 主线程接收
+worker.addEventListener('message', function (event) {
+    console.log('Message from Worker:', event.data);
+});
 ```
 
 ::: tip
@@ -70,6 +89,10 @@ worker.onerror = function (error) {
 
 ```javascript :no-line-numbers
 worker.terminate();
+```
+
+```js
+self.close();
 ```
 
 #### Worker 内部全局对象
@@ -180,4 +203,14 @@ navigator.serviceWorker.register('sw.js').then(() => {
 }).catch((err) => {
     console.error('注册失败')
 });
+```
+
+### ServerWorker 缓存资源
+
+**主要面对场景**
+
+1. 需要立刻展示 但能接受旧数据的场景
+2. 失败下的降级处理
+
+```
 ```
