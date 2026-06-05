@@ -1,10 +1,9 @@
+---
 icon: akar-icons:file
 date: 2026-02-04
 order: 2
 category:
-
-- Vite
-
+  - Vite
 ---
 
 # Vite 自定义插件
