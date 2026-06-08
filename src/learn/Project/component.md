@@ -407,3 +407,32 @@ const emit = defineEmits<{
 5. **类型完整**：使用 TypeScript 提供完整的类型提示
 
 通过合理的二次封装，可以显著提升开发效率和代码可维护性。
+
+
+## 案例 loading-button
+
+为了解决单个页面或者组件内存在多个loading 时，参数定义混乱的问题，封装了一个LoadingButton组件。
+
+```vue 
+
+<script lang="ts">
+  import {ref, useAttrs} from "vue";
+  import {omit} from "lodash-es";
+  // 关闭事件继承
+  defineOptions({
+    inheritAttrs: false
+  })
+
+  const loading = ref(false)
+  const attrs = useAttrs()
+  const handelClick = async () => {
+    loading.value = true
+    // 调用父组件传递的方法
+    await attrs.onClick?.()
+    loading.value = false
+  }
+</script>
+<template>
+  <el-button v-bind="omit($attrs, 'onClick')" :loading="loading"></el-button>
+</template>
+```

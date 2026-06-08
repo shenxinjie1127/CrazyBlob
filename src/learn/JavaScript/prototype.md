@@ -166,7 +166,27 @@ console.log(dog.breed); // '金毛'
 
 1. 在创建子类实例的时候，不能向超类型的构造函数中传递参数。
 2. 这样创建的子类原型会包含父类的实例属性，造成引用类型属性同步修改的问题。
-:::
+   :::
+
+### 构造函数继承
+
+可以避免属性共享问题
+
+```javascript
+function Animal(name) {
+  this.name = name;
+}
+
+Animal.prototype.eat = function () {
+  console.log(`${this.name} is eating`);
+};
+
+function Dog(name, breed) {
+  Animal.call(this, name); // 构造函数继承
+  this.name = name;
+  this.breed = breed;
+}
+```
 
 ### 组合继承
 
@@ -225,14 +245,9 @@ function Child(value) {
   Parent.call(this, value);
 }
 
-Child.prototype = Object.create(Parent.prototype, {
-  constructor: {
-    value: Child,
-    enumerable: false, // 不可枚举该属性
-    writable: true, // 可改写该属性
-    configurable: true, // 可用 delete 删除该属性
-  },
-});
+Child.prototype = Object.create(Parent.prototype);
+
+Child.prototype.constructor = Child;
 
 const child = new Child(1);
 child.getValue();

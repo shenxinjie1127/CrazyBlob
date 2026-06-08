@@ -1,18 +1,102 @@
 ---
 icon: akar-icons:file
-date: 2023-10-08
-order: 12
+date: 2025-08-21
+order: 4
 category:
   - Utils
 ---
 
-# 大文件上传和断点续传
+# 文件上传
 
-## 什么是断点续传
+## 上传封装
+
+```typescript :no-line-numbers
+import { setAttributes } from "@/utils/index";
+import { message } from "@/utils/message";
+import { $t } from "@/plugins/i18n";
+
+type FileOptions = {
+  isMultiple?: boolean;
+  isDirectory?: boolean;
+  accept?: string;
+  maxSize?: number;
+};
+
+export function selectFiles(options: FileOptions): Promise<FileList> {
+  return new Promise<FileList>((resolve, reject) => {
+    const input = document.createElement("input");
+    let props = {
+      type: "file",
+      style: {
+        display: "none",
+      },
+    };
+
+    function setProps(
+      props: any,
+      isMultiple: boolean,
+      isDirectory: boolean,
+      accept: string,
+    ) {
+      props["accept"] = accept;
+      if (isMultiple) {
+        props["multiple"] = "multiple";
+      }
+      if (isDirectory) {
+        props["webkitdirectory"] = "webkitdirectory";
+        props["mozdirectory"] = "mozdirectory";
+        props["odirectory"] = "odirectory";
+      }
+    }
+
+    const {
+      isMultiple = false,
+      isDirectory = false,
+      accept = "*/*",
+      maxSize,
+    } = options;
+    setProps(props, isMultiple, isDirectory, accept);
+    setAttributes(input, props);
+    input.click();
+    let fileCancel = true;
+    window.addEventListener(
+      "focus",
+      () => {
+        setTimeout(() => {
+          if (fileCancel) {
+            input.remove();
+          }
+        });
+      },
+      { once: true },
+    );
+    input.addEventListener("change", (ev: Event) => {
+      fileCancel = false;
+      // TODO  isDirectory 为true时，accept属性无效，这里需遍历文件夹下的文件，判断是否符合accept条件，暂不处理。
+      const result = (ev.target as HTMLInputElement).files;
+      if (maxSize) {
+        const overSize = Array.from(result).some((file) => file.size > maxSize);
+        if (overSize) {
+          message($t("message.wjdxcc"), {
+            type: "warning",
+          });
+          reject(new Error($t("message.wjdxcc")));
+        }
+      }
+      resolve(result);
+      input.remove();
+    });
+  });
+}
+```
+
+## 大文件上传和断点续传
+
+### 什么是断点续传
 
 断点续传是指在文件上传过程中，如果因为网络中断、页面刷新等原因导致上传失败，不需要重新上传整个文件，而是从上次中断的地方继续上传。这对于大文件上传尤为重要，可以显著提升用户体验和上传效率。
 
-## 核心思路
+### 核心思路
 
 把一个大文件切割成多个小块（Chunk），每个小块单独上传。如果上传过程中出现网络问题，只需要重新上传未完成的块，无需重新上传整个文件。
 
@@ -23,9 +107,9 @@ category:
 - **用户体验**：网络中断后可以无缝继续
 - **可靠性高**：单个分片失败不影响其他分片
 
-## 实现步骤
+### 实现步骤
 
-### 1. 文件唯一标识生成
+#### 1. 文件唯一标识生成
 
 在上传前，根据文件内容生成唯一的 Hash 值（通常使用 MD5），用于区分不同的文件。
 
@@ -47,7 +131,7 @@ async function calculateFileHash(file) {
 }
 ```
 
-### 2. 文件切片
+#### 2. 文件切片
 
 将大文件切割成多个固定大小的分片。
 
@@ -69,7 +153,7 @@ function createChunks(file, chunkSize = 2 * 1024 * 1024) {
 }
 ```
 
-### 3. 分片上传
+#### 3. 分片上传
 
 支持并发上传多个分片，提升上传效率。
 
@@ -111,7 +195,7 @@ async function uploadChunks(chunks, fileHash, onProgress) {
 }
 ```
 
-### 4. 断点续传实现
+#### 4. 断点续传实现
 
 记录已上传的分片信息，断网后可恢复上传。
 
@@ -138,7 +222,7 @@ async function resumeUpload(file, chunkSize = 2 * 1024 * 1024) {
 }
 ```
 
-### 5. 文件合并
+#### 5. 文件合并
 
 所有分片上传完成后，通知服务器合并分片。
 
@@ -154,9 +238,9 @@ async function mergeChunks(fileHash) {
 }
 ```
 
-## 安全性问题
+### 安全性问题
 
-### 1. 分片内容校验
+#### 1. 分片内容校验
 
 在切片过程中对每个分片进行 Hash 校验，防止内容篡改。
 
@@ -176,7 +260,7 @@ async function calculateChunkHash(chunk) {
 }
 ```
 
-### 2. 切片大小限制
+#### 2. 切片大小限制
 
 设置切片大小上限，防止切片过大导致请求失败。
 
@@ -184,7 +268,7 @@ async function calculateChunkHash(chunk) {
 - 最小分片大小：100KB
 - 最大分片数量：1000 个
 
-### 3. 文件类型和大小限制
+#### 3. 文件类型和大小限制
 
 ```javascript
 function validateFile(file) {
@@ -207,25 +291,25 @@ function validateFile(file) {
 }
 ```
 
-## 常见问题
+### 常见问题
 
-### 1. 如何选择分片大小？
+#### 1. 如何选择分片大小？
 
 - 文件类型：视频大文件建议 5MB+，图片建议 1MB
 - 网络环境：网络稳定可较大，网络不稳定建议较小
 - 服务器限制：考虑服务器超时和请求体大小限制
 
-### 2. 如何处理服务器存储？
+#### 2. 如何处理服务器存储？
 
 - 使用临时目录存储分片
 - 合并后移动到正式存储位置
 - 定期清理未完成的分片（可设置过期时间）
 
-### 3. 如何保证分片顺序？
+#### 3. 如何保证分片顺序？
 
 服务器端根据分片索引（index）存储，合并时按索引顺序读取。
 
-## 总结
+### 总结
 
 大文件上传和断点续传的核心在于：
 

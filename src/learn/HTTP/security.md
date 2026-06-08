@@ -16,7 +16,7 @@ xss 危害
 ### 防御措施
 
 1. 输入验证
-2. 输出编码
+2. 输出编码 防止参入脚本标签
 3. 给cookie 设置 httpOnly
 4. CSP Content security policy  建立白名单，告诉浏览器哪些外部资源可以加载和执行 `Content-Security-Policy: default-src 'self'`
 5. 避免使用 v-html 

@@ -87,18 +87,8 @@ var person = {
     hobby: ['1', ['2', '3', '4'], '5']
 }
 
-function deepClone(obj) {
-    var cloneObj = new obj.constructor()
-    if (obj === null) return obj //在js中，null是一个对象
-    if (obj instanceof Date) return new Date(obj)
-    if (obj instanceof RegExp) return new RegExp(obj)
-    if (typeof obj !== 'object') return obj
-    for (var i in obj) {
-        if (obj.hasOwnProperty(i)) {
-            cloneObj[i] = deepClone(obj[i])
-        }
-    }
-    return cloneObj
+function deepClone(obj, hash = new WeakMap()) {
+    if (obj === null || typeof obj !== )
 }
 
 var person1 = deepClone(person)
