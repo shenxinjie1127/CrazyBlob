@@ -90,6 +90,66 @@ bar();
 add(10, 20);
 ```
 
+### 内存泄露出现的原因
+
+本质上就上有垃圾没有被回收 闭包= 函数 + 词法环境
+
+1. 有本该被回收的函数没有回收，从而导致其关联的词法环境页无法被回收，最终造成内存泄漏。
+
+```javascript
+function createIncrease() {
+  const doms = new Array(100000).fill(0).map((_, i) => {
+    const dom = document.createElement("div");
+    dom.innerHTML = i;
+    return dom;
+  });
+
+  function increase() {
+    doms.forEach((dom) => {
+      dom.innerHTML = Number(dom.innerHTML) + 1;
+    });
+  }
+  return increase;
+}
+
+const increase = createIncrease();
+
+setTimeout(() => {
+  increase();
+  // 手动将increase函数的引用设为null，避免内存泄漏
+  increase = null;
+}, 1000);
+```
+
+2. 当多个函数共享词法环境时，可能会造成词法环境的膨胀，从而导致内存泄漏。
+
+```javascript
+function createIncrease() {
+  const doms = new Array(100000).fill(0).map((_, i) => {
+    const dom = document.createElement("div");
+    dom.innerHTML = i;
+    return dom;
+  });
+
+  function increase() {}
+  function aaa() {
+    doms.forEach((dom) => {
+      dom.innerHTML = Number(dom.innerHTML) + 1;
+    });
+  }
+  return increase;
+}
+
+const increase = createIncrease();
+
+// 在这里其实increase函数和aaa函数共享了doms数组，导致doms数组无法被回收，从而内存泄漏
+setTimeout(() => {
+  increase();
+  // 手动将increase函数的引用设为null，避免内存泄漏
+  increase = null;
+}, 1000);
+```
+
 ### 闭包泄露的检测
 
 Chrome DevTools Memory 面板
