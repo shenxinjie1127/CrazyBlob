@@ -162,7 +162,7 @@ Chrome DevTools Memory 面板
 5. 查找意外存活的闭包作用域
 ```
 
-## 常见的问题
+<!-- ## 常见的问题
 
 1. 你能解释什么是作用域链吗？它是如何在 JavaScript 中工作的？
 2. 当一个变量在当前作用域中找不到时，JavaScript 是如何沿着作用域链查找的？它会找到什么为止？
@@ -211,4 +211,4 @@ const memoize = createMemoizer();
 for (let i = 0; i < 1_000_000; i++) {
   memoize(`key-${i}`, new Array(1000));
 }
-```
+``` -->
