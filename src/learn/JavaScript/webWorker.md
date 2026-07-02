@@ -19,7 +19,7 @@ Web Worker 是一种运行在主线程之外的 JavaScript 并行执行环境。
 3. dom操作不可用
 4. 丢失原型链
 5. document 不可用
-   :::
+:::
 
 ### API
 
