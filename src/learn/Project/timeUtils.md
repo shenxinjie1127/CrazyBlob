@@ -103,7 +103,7 @@ dayjs('2018-05-05').locale('zh-cn').format() // use Chinese Simplified locale in
 #### 封装
 
 ```typescript
-import {useI18n} from "vue-i18n";
+import { useI18n } from "vue-i18n";
 import dayjs from "dayjs";
 
 enum FORMAT_TYPE {
@@ -112,50 +112,39 @@ enum FORMAT_TYPE {
     DateTime
 }
 
-const {locale} = useI18n();
+const FORMAT_MAP: Record<string, Record<FORMAT_TYPE, string>> = {
+    zh: {
+        [FORMAT_TYPE.Date]: "YYYY-MM-DD",
+        [FORMAT_TYPE.Time]: "HH:mm:ss",
+        [FORMAT_TYPE.DateTime]: "YYYY-MM-DD HH:mm:ss",
+    },
+    en: {
+        [FORMAT_TYPE.Date]: "MM/DD/YYYY",
+        [FORMAT_TYPE.Time]: "HH:mm:ss",
+        [FORMAT_TYPE.DateTime]: "MM/DD/YYYY HH:mm:ss",
+    },
+    de: {
+        [FORMAT_TYPE.Date]: "DD.MM.YYYY",
+        [FORMAT_TYPE.Time]: "HH:mm:ss",
+        [FORMAT_TYPE.DateTime]: "DD.MM.YYYY HH:mm:ss",
+    },
+    fr: {
+        [FORMAT_TYPE.Date]: "DD/MM/YYYY",
+        [FORMAT_TYPE.Time]: "HH:mm:ss",
+        [FORMAT_TYPE.DateTime]: "DD/MM/YYYY HH:mm:ss",
+    },
+    it: {
+        [FORMAT_TYPE.Date]: "DD/MM/YYYY",
+        [FORMAT_TYPE.Time]: "HH:mm:ss",
+        [FORMAT_TYPE.DateTime]: "DD/MM/YYYY HH:mm:ss",
+    },
+};
 
 function format(datetime: string | number, type = FORMAT_TYPE.DateTime) {
-    switch (locale.value) {
-        case "zh":
-            if (type === FORMAT_TYPE.Date) {
-                return dayjs(datetime).format("YYYY-MM-DD");
-            }
-            if (type === FORMAT_TYPE.Time) {
-                return dayjs(datetime).format("HH:mm:ss");
-            }
-            return dayjs(datetime).format("YYYY-MM-DD HH:mm:ss");
-        case "en":
-            if (type === FORMAT_TYPE.Date) {
-                return dayjs(datetime).format("MM/DD/YYYY");
-            }
-            if (type === FORMAT_TYPE.Time) {
-                return dayjs(datetime).format("HH:mm:ss");
-            }
-            return dayjs(datetime).format("MM/DD/YYYY HH:mm:ss");
-        case "de":
-            if (type === FORMAT_TYPE.Date) {
-                return dayjs(datetime).format("DD.MM.YYYY");
-            }
-            if (type === FORMAT_TYPE.Time) {
-                return dayjs(datetime).format("HH:mm:ss");
-            }
-            return dayjs(datetime).format("DD.MM.YYYY HH:mm:ss");
-        case "fr":
-            if (type === FORMAT_TYPE.Date) {
-                return dayjs(datetime).format("DD/MM/YYYY");
-            }
-            if (type === FORMAT_TYPE.Time) {
-                return dayjs(datetime).format("HH:mm:ss");
-            }
-            return dayjs(datetime).format("DD/MM/YYYY HH:mm:ss");
-        case "it":
-            if (type === FORMAT_TYPE.Date) {
-                return dayjs(datetime).format("DD/MM/YYYY");
-            }
-            if (type === FORMAT_TYPE.Time) {
-                return dayjs(datetime).format("HH:mm:ss");
-            }
-            return dayjs(datetime).format("DD/MM/YYYY HH:mm:ss");
-    }
+    const { locale } = useI18n();
+    const localeKey = locale.value as keyof typeof FORMAT_MAP;
+    const formatMap = FORMAT_MAP[localeKey] || FORMAT_MAP.en; // fallback to en
+    const formatStr = formatMap[type] || formatMap[FORMAT_TYPE.DateTime];
+    return dayjs(datetime).format(formatStr);
 }
 ```
